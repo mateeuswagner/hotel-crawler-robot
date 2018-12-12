@@ -50,6 +50,7 @@ const buscar = {
             res.status(400).send({
                 error: validation
             });
+            return;
         }
         let params = crawler.fixedParams;
         params.CheckIn = req.body.checkin.replace(new RegExp('/', 'g'), ''); // remove /
