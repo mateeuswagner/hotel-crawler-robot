@@ -1,5 +1,5 @@
-const Buscar = require('../controllers/buscar');
+const { webCrawler } = require('../controllers/buscar');
 
 module.exports = (router) => {
-    router.route('/buscar').post(Buscar.WebCrawler);
+    router.route('/buscar').post(webCrawler);
 }
