@@ -8,11 +8,19 @@ module.exports = {
         let validation = {
             isValid: false
         }
-
+        
+        // Not valid params
         if (!checkin.isValid() || !checkout.isValid()){
-            validation.message = 'Missing mandatory parameter';
+            validation.message = 'Missing or not correct mandatory parameter';
+
+        // Checkin is not today
+        } else if (!moment().isBefore(checkin)) {
+            validation.message = 'Checkin must be set to a future date!'
+
+        // Checkin is before checkout
         }else if(!checkin.isBefore(checkout)){
             validation.message = 'Checkout must be after Checkin';
+        // Is Valid
         } else {
             validation.isValid = true;
         }

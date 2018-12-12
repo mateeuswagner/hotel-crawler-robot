@@ -1,6 +1,7 @@
 const express = require('express');
 const app = express();
 const bodyParser = require('body-parser')
+const config = require('./config');
 
 const router = express.Router();
 
@@ -12,6 +13,6 @@ app.use(bodyParser());
 app.use('/', router);
 
 
-app.listen(3000, function () {
+app.listen(config.server.port, function () {
   console.log('Hotel crawler robot app is listening!');
 });
