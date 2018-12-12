@@ -14,7 +14,6 @@
   "keywords": [
     "crawler",
     "hotel",
-    "crawler",
     "robot"
   ],
   "author": "Mateus Wagner Costa <mateeuswagner@gmail.com>",
@@ -24,11 +23,11 @@
   },
   "homepage": "https://github.com/mateeuswagner/hotel-crawler-robot#readme",
   "dependencies": {
-    "axios": "^0.18.0",
     "body-parser": "^1.18.3",
     "cheerio": "^1.0.0-rc.2",
     "express": "^4.16.4",
     "moment": "^2.22.2",
-    "nodemon": "^1.18.8"
+    "nodemon": "^1.18.8",
+    "puppeteer": "^1.11.0"
   }
 }
