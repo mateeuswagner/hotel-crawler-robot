@@ -1,14 +1,12 @@
-var express = require('express');
-var app = express();
+const express = require('express');
+const app = express();
+const router = express.Router();
 
-app.post('/buscar', function (req, res) {
-  // Crawler
-  let code = 200;
-  res.status(code).send({
-      message: 'Response',
-      code
-  });
-});
+const routes = require('./routes');
+
+routes(router);
+
+app.use('/', router);
 
 app.listen(3000, function () {
   console.log('Hotel crawler robot app is listening!');
