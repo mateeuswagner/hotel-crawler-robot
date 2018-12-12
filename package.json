@@ -24,6 +24,8 @@
   },
   "homepage": "https://github.com/mateeuswagner/hotel-crawler-robot#readme",
   "dependencies": {
+    "axios": "^0.18.0",
+    "cheerio": "^1.0.0-rc.2",
     "express": "^4.16.4",
     "nodemon": "^1.18.8"
   }
