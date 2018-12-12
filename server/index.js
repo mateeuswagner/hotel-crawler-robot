@@ -1,12 +1,16 @@
 const express = require('express');
 const app = express();
+const bodyParser = require('body-parser')
+
 const router = express.Router();
 
 const routes = require('./routes');
 
 routes(router);
 
+app.use(bodyParser());
 app.use('/', router);
+
 
 app.listen(3000, function () {
   console.log('Hotel crawler robot app is listening!');
