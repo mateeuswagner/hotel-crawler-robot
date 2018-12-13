@@ -5,9 +5,9 @@ module.exports = {
     crawler: {
         website: 'https://myreservations.omnibees.com',
         fixedParams: {
-            c: 2983, // Le Canton
+            q: 5462,
             lang: 'pt-BR'
         },
-        resultField: '#search_results'
+        resultField: '#room_results'
     }
 }

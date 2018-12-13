@@ -6,6 +6,7 @@ module.exports = {
         const checkout = moment(req.body.checkout, "DD/MM/YYYY");
 
         let validation = {
+            name: 'InvalidSearching',
             isValid: false
         }
         

@@ -10,9 +10,13 @@ const validators = require('../validators');
 fetchWebsitePage = async (baseUrl, params) => {
     const browser = await puppeteer.launch({args: ['--no-sandbox', '--disable-setuid-sandbox'], headless: true});
     const page = await browser.newPage();
-    await page.goto(baseUrl + '/chain.aspx?' + qs.stringify(params));
-    await page.waitForSelector(crawler.resultField).catch((err) => console.log(err));
-    let html = await page.evaluate(() => new XMLSerializer().serializeToString(document)).catch((err) => console.log(err));
+    await page.goto(baseUrl + '/default.aspx?' + qs.stringify(params));
+
+    // Wait for mandatory information
+    await page.waitForSelector('#rooms_results');
+    await page.waitForFunction('document.querySelector("h6.bestPriceTextColor").innerText');
+
+    const html = await page.evaluate(() => new XMLSerializer().serializeToString(document)).catch((err) => console.log(err));
     browser.close();
     return html;
 }
@@ -23,21 +27,21 @@ fetchWebsitePage = async (baseUrl, params) => {
 parseWebsiteBody = (body) => {
     let response = {available: []};
     const $ = cheerio.load(body);
-    $(crawler.resultField).find('.entry.available').each((index, elem) => {
+    $('tr.roomName').each((index, elem) => {
         let room = {};
         $elem = cheerio.load(elem);
         
-        let imageURL = $elem('.thumb').find('.image > a').attr('href');
+        let imageURL = $elem('.roomSlider').find('.slide').not('.bx-clone').find('img').attr('src');
         if (helpers.relativeURLPathCheck(imageURL)){
             imageURL = crawler.website + imageURL;
         }
         room.imageURL = imageURL;
 
-        const $description = $elem('.description');
+        const $description = $elem('.excerpt');
         room.name = $description.find('h5 > a').html();
-        room.description = $description.find('p').html();
-        room.price = $description.find('.bestChainPriceTextColor').html();
-        
+        room.description = $description.find('p > a').html();
+        room.price = $elem('h6.bestPriceTextColor').html();
+
         response.available.push(room);
     });
     return response;
@@ -48,7 +52,7 @@ const buscar = {
         const validation = validators.validateBuscar(req);
         if (!validation.isValid) {
             res.status(400).send({
-                error: validation
+                err: validation
             });
             return;
         }
@@ -57,6 +61,8 @@ const buscar = {
         params.CheckOut = req.body.checkout.replace(new RegExp('/', 'g'), ''); // remove /
         fetchWebsitePage(crawler.website, params).then((html) => {
             res.status(200).send(parseWebsiteBody(html));
+        }).catch((err) => {
+            res.status(408).send({err: err});
         });
     }
 }
