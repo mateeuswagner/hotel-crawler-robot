@@ -9,5 +9,8 @@ module.exports = {
             lang: 'pt-BR'
         },
         resultField: '#room_results'
+    },
+    webview: {
+        defaultTemplatesFolder: 'webview_templates'
     }
 }
